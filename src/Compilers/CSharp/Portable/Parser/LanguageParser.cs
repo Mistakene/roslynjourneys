@@ -12724,29 +12724,19 @@ done:
             SyntaxToken @new = this.EatToken(SyntaxKind.NewKeyword);
 
             TypeSyntax type = null;
-            InitializerExpressionSyntax initializer = null;
 
             if (!IsImplicitObjectCreation())
             {
                 type = this.ParseType(ParseTypeMode.NewExpression);
                 if (type.Kind == SyntaxKind.ArrayType)
                 {
-                    // Check for an initializer.
-                    if (this.CurrentToken.Kind == SyntaxKind.OpenBraceToken)
-                    {
-                        initializer = this.ParseArrayInitializer();
-                    }
-
-                    return _syntaxFactory.ArrayCreationExpression(@new, (ArrayTypeSyntax)type, initializer);
+                    return _syntaxFactory.ArrayCreationExpression(@new, (ArrayTypeSyntax)type, 
+                        this.CurrentToken.Kind == SyntaxKind.OpenBraceToken ? this.ParseArrayInitializer() : null);
                 }
             }
 
-            ArgumentListSyntax argumentList = this.CurrentToken.Kind == SyntaxKind.OpenParenToken ? this.ParseParenthesizedArgumentList();
-
-            if (this.CurrentToken.Kind == SyntaxKind.OpenBraceToken)
-            {
-                initializer = this.ParseObjectOrCollectionInitializer();
-            }
+            ArgumentListSyntax argumentList = this.CurrentToken.Kind == SyntaxKind.OpenParenToken ? this.ParseParenthesizedArgumentList() : null;
+            InitializerExpressionSyntax initializer = this.CurrentToken.Kind == SyntaxKind.OpenBraceToken ? this.ParseObjectOrCollectionInitializer() : null;
 
             return type is null
                 ? _syntaxFactory.ImplicitObjectCreationExpression(@new, argumentList, initializer)
