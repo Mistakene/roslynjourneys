@@ -40,7 +40,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
                 diagnostics.Add(ErrorCode.ERR_StaticConstructorWithAccessModifiers, location, this);
             }
 
-            if (syntax.Identifier.ValueText != containingType.Name)
+            if (syntax.Identifier.Kind() == SyntaxKind.IdentifierToken && syntax.Identifier.ValueText != containingType.Name)
             {
                 // This is probably a method declaration with the type missing.
                 diagnostics.Add(ErrorCode.ERR_MemberNeedsType, location);
