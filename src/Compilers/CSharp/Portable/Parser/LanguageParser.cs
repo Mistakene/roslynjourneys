@@ -9033,15 +9033,6 @@ done:
             if (keywordKind == SyntaxKind.WhenKeyword || keywordKind == SyntaxKind.IfKeyword)
             {
                 var whenKeyword = this.EatContextualToken(SyntaxKind.WhenKeyword);
-                if (keywordKind == SyntaxKind.IfKeyword)
-                {
-                    // The initial design of C# exception filters called for the use of the
-                    // "if" keyword in this position.  We've since changed to "when", but 
-                    // the error recovery experience for early adopters (and for old source
-                    // stored in the symbol server) will be better if we consume "if" as
-                    // though it were "when".
-                    whenKeyword = AddTrailingSkippedSyntax(whenKeyword, EatToken());
-                }
 
                 _termState |= TerminatorState.IsEndOfFilterClause;
                 var openParen = this.EatToken(SyntaxKind.OpenParenToken);
