@@ -3061,38 +3061,24 @@ parse_member_name:;
                     case SyntaxKind.NewKeyword when this.PeekToken(1).Kind == SyntaxKind.ThisKeyword:
                     case SyntaxKind.IdentifierToken when this.PeekToken(1).Kind == SyntaxKind.OpenParenToken:
                         return this.ParseConstructorDeclaration(attributes, modifiers);
-                }
 
-                // Check for destructor form
-                if (this.CurrentToken.Kind == SyntaxKind.TildeToken)
-                {
+                    case SyntaxKind.TildeToken:
                     return this.ParseDestructorDeclaration(attributes, modifiers);
-                }
 
-                // Check for constant
-                if (this.CurrentToken.Kind == SyntaxKind.ConstKeyword)
-                {
+                    case SyntaxKind.ConstKeyword:
                     return this.ParseConstantFieldDeclaration(attributes, modifiers, parentKind);
-                }
 
-                // Check for event.
-                if (this.CurrentToken.Kind == SyntaxKind.EventKeyword)
-                {
+                    case SyntaxKind.EventKeyword:
                     return this.ParseEventDeclaration(attributes, modifiers, parentKind);
-                }
 
-                // check for fixed size buffers.
-                if (this.CurrentToken.Kind == SyntaxKind.FixedKeyword)
-                {
+                    case SyntaxKind.FixedKeyword:
                     return this.ParseFixedSizeBufferDeclaration(attributes, modifiers, parentKind);
                 }
 
                 // Check for conversion operators (implicit/explicit)
                 MemberDeclarationSyntax result = this.TryParseConversionOperatorDeclaration(attributes, modifiers);
                 if (result is not null)
-                {
                     return result;
-                }
 
                 // Namespaces should be handled by the caller, not checking for them
 
