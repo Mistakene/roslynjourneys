@@ -33013,6 +33013,13 @@ internal static partial class SyntaxFactory
         return result;
     }
 
+    public static QualifiedNameSyntax QualifiedName(String left, String right)
+    {
+        var leftIdentifier = SyntaxFactory.IdentifierName(SyntaxFactory.Identifier(left));
+        var rghtIdentifier = SyntaxFactory.IdentifierName(SyntaxFactory.Identifier(right));
+        return SyntaxFactory.QualifiedName(leftIdentifier, SyntaxFactory.MissingToken(SyntaxKind.DotToken), rghtIdentifier);
+    }
+
     public static QualifiedNameSyntax QualifiedName(NameSyntax left, SyntaxToken dotToken, SimpleNameSyntax right)
     {
 #if DEBUG
