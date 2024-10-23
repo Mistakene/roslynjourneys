@@ -12741,11 +12741,7 @@ done:
                 }
             }
 
-            ArgumentListSyntax argumentList = null;
-            if (this.CurrentToken.Kind == SyntaxKind.OpenParenToken)
-            {
-                argumentList = this.ParseParenthesizedArgumentList();
-            }
+            ArgumentListSyntax argumentList = this.CurrentToken.Kind == SyntaxKind.OpenParenToken ? this.ParseParenthesizedArgumentList();
 
             if (this.CurrentToken.Kind == SyntaxKind.OpenBraceToken)
             {
