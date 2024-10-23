@@ -12608,21 +12608,11 @@ done:
 
         private ExpressionSyntax ParseNewExpression()
         {
-            Debug.Assert(this.CurrentToken.Kind == SyntaxKind.NewKeyword);
-
             if (this.IsAnonymousType())
-            {
                 return this.ParseAnonymousTypeExpression();
-            }
             else if (this.IsImplicitlyTypedArray())
-            {
                 return this.ParseImplicitlyTypedArrayCreation();
-            }
-            else
-            {
-                // assume object creation as default case
-                return this.ParseArrayOrObjectCreationExpression();
-            }
+            return this.ParseArrayOrObjectCreationExpression();
         }
 
         private CollectionExpressionSyntax ParseCollectionExpression()
