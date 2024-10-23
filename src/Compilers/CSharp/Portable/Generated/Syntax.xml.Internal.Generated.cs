@@ -31799,7 +31799,6 @@ internal partial class ContextAwareSyntax
     {
 #if DEBUG
         if (identifier == null) throw new ArgumentNullException(nameof(identifier));
-        if (identifier.Kind != SyntaxKind.IdentifierToken) throw new ArgumentException(nameof(identifier));
         if (parameterList == null) throw new ArgumentNullException(nameof(parameterList));
         if (semicolonToken != null)
         {
