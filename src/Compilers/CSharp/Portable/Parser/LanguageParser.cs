@@ -1287,6 +1287,8 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
 
         internal static DeclarationModifiers GetModifierExcludingScoped(SyntaxKind kind, SyntaxKind contextualKind)
         {
+            if (kind is SyntaxKind.InitKeyword || contextualKind is SyntaxKind.InitKeyword)
+                return DeclarationModifiers.Init;
             switch (kind)
             {
                 case SyntaxKind.PublicKeyword:
@@ -1462,6 +1464,11 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
 
                         modTok = ConvertToKeyword(this.EatToken());
 
+                        break;
+
+                    case DeclarationModifiers.Init:
+
+                        modTok = ConvertToKeyword(this.EatToken());
                         break;
 
                     default:
