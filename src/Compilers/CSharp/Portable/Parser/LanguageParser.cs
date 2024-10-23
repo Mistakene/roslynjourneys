@@ -12420,9 +12420,7 @@ done:
         private bool IsPossibleLambdaExpression(Precedence precedence)
         {
             if (precedence > Precedence.Lambda)
-            {
                 return false;
-            }
 
             var token1 = this.PeekToken(1);
 
@@ -12430,9 +12428,7 @@ done:
             //
             // Def a lambda.
             if (token1.Kind == SyntaxKind.EqualsGreaterThanToken)
-            {
                 return true;
-            }
 
             using var _ = this.GetDisposableResetPoint(resetOnDispose: true);
 
@@ -12458,54 +12454,41 @@ done:
                 EatToken();
                 seenStatic = true;
             }
-            else if (this.CurrentToken.ContextualKind == SyntaxKind.AsyncKeyword &&
-                     this.PeekToken(1).Kind == SyntaxKind.StaticKeyword)
+            else if (this.CurrentToken.ContextualKind == SyntaxKind.AsyncKeyword && this.PeekToken(1).Kind == SyntaxKind.StaticKeyword)
             {
                 EatToken();
                 EatToken();
                 seenStatic = true;
             }
             else
-            {
                 seenStatic = false;
-            }
 
             if (seenStatic)
             {
                 if (this.CurrentToken.Kind == SyntaxKind.EqualsGreaterThanToken)
-                {
                     // 1. `static =>`
                     // 2. `async static =>`
 
                     // This is an error case, but we have enough code in front of us to be certain
                     // the user was trying to write a static lambda.
                     return true;
-                }
 
                 if (this.CurrentToken.Kind == SyntaxKind.OpenParenToken)
-                {
                     // 1. `static (...
                     // 2. `async static (...
                     return true;
-                }
             }
 
-            if (this.CurrentToken.Kind == SyntaxKind.IdentifierToken &&
-                this.PeekToken(1).Kind == SyntaxKind.EqualsGreaterThanToken)
-            {
+            if (this.CurrentToken.Kind == SyntaxKind.IdentifierToken && this.PeekToken(1).Kind == SyntaxKind.EqualsGreaterThanToken)
                 // 1. `a => ...`
                 // 1. `static a => ...`
                 // 2. `async static a => ...`
                 return true;
-            }
 
             // Have checked all the static forms.  And have checked for the basic `a => a` form.  
             // At this point we have must be on 'async' or an explicit return type for this to still be a lambda.
-            if (this.CurrentToken.ContextualKind == SyntaxKind.AsyncKeyword &&
-                IsAnonymousFunctionAsyncModifier())
-            {
+            if (this.CurrentToken.ContextualKind == SyntaxKind.AsyncKeyword && IsAnonymousFunctionAsyncModifier())
                 EatToken();
-            }
 
             using (var nestedResetPoint = this.GetDisposableResetPoint(resetOnDispose: false))
             {
@@ -12722,7 +12705,6 @@ done:
         private ExpressionSyntax ParseArrayOrObjectCreationExpression()
         {
             SyntaxToken @new = this.EatToken(SyntaxKind.NewKeyword);
-
             TypeSyntax type = null;
 
             if (!IsImplicitObjectCreation())
