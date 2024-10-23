@@ -721,9 +721,6 @@ namespace Microsoft.Cci
             int deltaLines = sequencePoint.EndLine - sequencePoint.StartLine;
             int deltaColumns = sequencePoint.EndColumn - sequencePoint.StartColumn;
 
-            // only hidden sequence points have zero width
-            Debug.Assert(deltaLines != 0 || deltaColumns != 0 || sequencePoint.IsHidden);
-
             writer.WriteCompressedInteger(deltaLines);
 
             if (deltaLines == 0)
