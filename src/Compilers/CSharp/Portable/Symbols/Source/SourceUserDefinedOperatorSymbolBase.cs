@@ -571,12 +571,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
 
                 var useSiteInfo = new CompoundUseSiteInfo<AssemblySymbol>(diagnostics, ContainingAssembly);
 
-                if (same.IsDerivedFrom(different, ComparisonForUserDefinedOperators, useSiteInfo: ref useSiteInfo))
-                {
-                    // '{0}': user-defined conversions to or from a base type are not allowed
-                    diagnostics.Add(ErrorCode.ERR_ConversionWithBase, this.GetFirstLocation(), this);
-                }
-                else if (different.IsDerivedFrom(same, ComparisonForUserDefinedOperators, useSiteInfo: ref useSiteInfo))
+                if (different.IsDerivedFrom(same, ComparisonForUserDefinedOperators, useSiteInfo: ref useSiteInfo))
                 {
                     // '{0}': user-defined conversions to or from a derived type are not allowed
                     diagnostics.Add(ErrorCode.ERR_ConversionWithDerived, this.GetFirstLocation(), this);
