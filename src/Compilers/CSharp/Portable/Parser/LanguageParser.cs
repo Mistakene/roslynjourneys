@@ -777,7 +777,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
                         else if (seen == NamespaceParts.TypesAndNamespaces)
                         {
                             seen = NamespaceParts.TopLevelStatementsAfterTypesAndNamespaces;
-                            }
+                        }
 
                         break;
 
@@ -3063,16 +3063,16 @@ parse_member_name:;
                         return this.ParseConstructorDeclaration(attributes, modifiers);
 
                     case SyntaxKind.TildeToken:
-                    return this.ParseDestructorDeclaration(attributes, modifiers);
+                        return this.ParseDestructorDeclaration(attributes, modifiers);
 
                     case SyntaxKind.ConstKeyword:
-                    return this.ParseConstantFieldDeclaration(attributes, modifiers, parentKind);
+                        return this.ParseConstantFieldDeclaration(attributes, modifiers, parentKind);
 
                     case SyntaxKind.EventKeyword:
-                    return this.ParseEventDeclaration(attributes, modifiers, parentKind);
+                        return this.ParseEventDeclaration(attributes, modifiers, parentKind);
 
                     case SyntaxKind.FixedKeyword:
-                    return this.ParseFixedSizeBufferDeclaration(attributes, modifiers, parentKind);
+                        return this.ParseFixedSizeBufferDeclaration(attributes, modifiers, parentKind);
                 }
 
                 // Check for conversion operators (implicit/explicit)
