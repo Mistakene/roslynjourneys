@@ -320,19 +320,17 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
                         | DeclarationModifiers.Unsafe;
 
                     if (!this.IsRecord)
-                    {
                         allowedModifiers |= DeclarationModifiers.Static;
-                    }
 
+                    allowedModifiers |= DeclarationModifiers.Init;
                     break;
                 case TypeKind.Struct:
                     allowedModifiers |= DeclarationModifiers.Partial | DeclarationModifiers.ReadOnly | DeclarationModifiers.Unsafe;
 
                     if (!this.IsRecordStruct)
-                    {
                         allowedModifiers |= DeclarationModifiers.Ref;
-                    }
-
+                    
+                    allowedModifiers |= DeclarationModifiers.Init;
                     break;
                 case TypeKind.Interface:
                     allowedModifiers |= DeclarationModifiers.Partial | DeclarationModifiers.Unsafe;

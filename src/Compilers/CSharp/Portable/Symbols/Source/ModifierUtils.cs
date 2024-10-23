@@ -324,6 +324,8 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
                     return SyntaxFacts.GetText(SyntaxKind.ScopedKeyword);
                 case DeclarationModifiers.File:
                     return SyntaxFacts.GetText(SyntaxKind.FileKeyword);
+                case DeclarationModifiers.Init:
+                    return SyntaxFacts.GetText(SyntaxKind.InitKeyword);
                 default:
                     throw ExceptionUtilities.UnexpectedValue(modifier);
             }
@@ -377,6 +379,8 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
                     return DeclarationModifiers.Scoped;
                 case SyntaxKind.FileKeyword:
                     return DeclarationModifiers.File;
+                case SyntaxKind.InitKeyword:
+                    return DeclarationModifiers.Init;
                 default:
                     throw ExceptionUtilities.UnexpectedValue(kind);
             }
