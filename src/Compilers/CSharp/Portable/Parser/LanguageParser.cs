@@ -8951,15 +8951,19 @@ done:
                 _termState = saveTerm;
             }
 
-            SyntaxListBuilder<CatchClauseSyntax> catchClauses = default;
+            SyntaxListBuilder<CatchClauseSyntax> catchClauses = _pool.Allocate<CatchClauseSyntax>();
             FinallyClauseSyntax finallyClause = null;
             if (this.CurrentToken.Kind == SyntaxKind.CatchKeyword)
             {
-                catchClauses = _pool.Allocate<CatchClauseSyntax>();
                 while (this.CurrentToken.Kind == SyntaxKind.CatchKeyword)
                 {
                     catchClauses.Add(this.ParseCatchClause());
                 }
+            }
+            else
+            {
+                catchClauses.Add(
+                    _syntaxFactory.CatchClause(SyntaxToken.CreateMissing(SyntaxKind.CatchKeyword), null, null, missingBlock()));
             }
 
             if (this.CurrentToken.Kind == SyntaxKind.FinallyKeyword)
