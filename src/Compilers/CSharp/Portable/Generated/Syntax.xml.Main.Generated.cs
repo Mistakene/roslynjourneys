@@ -5454,7 +5454,6 @@ public static partial class SyntaxFactory
     /// <summary>Creates a new ConstructorDeclarationSyntax instance.</summary>
     public static ConstructorDeclarationSyntax ConstructorDeclaration(SyntaxList<AttributeListSyntax> attributeLists, SyntaxTokenList modifiers, SyntaxToken identifier, ParameterListSyntax parameterList, ConstructorInitializerSyntax? initializer, BlockSyntax? body, ArrowExpressionClauseSyntax? expressionBody, SyntaxToken semicolonToken)
     {
-        if (identifier.Kind() != SyntaxKind.IdentifierToken) throw new ArgumentException(nameof(identifier));
         if (parameterList == null) throw new ArgumentNullException(nameof(parameterList));
         switch (semicolonToken.Kind())
         {
