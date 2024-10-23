@@ -8973,12 +8973,8 @@ done:
                     this.ParsePossiblyAttributedBlock());
             }
 
-            if (catchClauses.IsNull && finallyClause == null)
+            if (finallyClause == null)
             {
-                if (!ContainsErrorDiagnostic(tryBlock))
-                    tryBlock = this.AddErrorToLastToken(tryBlock, ErrorCode.ERR_ExpectedEndTry);
-
-                // synthesize missing tokens for "finally { }":
                 finallyClause = _syntaxFactory.FinallyClause(
                     SyntaxFactory.MissingToken(SyntaxKind.FinallyKeyword),
                     missingBlock());
