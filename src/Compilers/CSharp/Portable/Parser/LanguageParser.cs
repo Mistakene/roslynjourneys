@@ -777,12 +777,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
                         else if (seen == NamespaceParts.TypesAndNamespaces)
                         {
                             seen = NamespaceParts.TopLevelStatementsAfterTypesAndNamespaces;
-
-                            if (!IsScript)
-                            {
-                                memberOrStatement = this.AddError(memberOrStatement, ErrorCode.ERR_TopLevelStatementAfterNamespaceOrType);
                             }
-                        }
 
                         break;
 
