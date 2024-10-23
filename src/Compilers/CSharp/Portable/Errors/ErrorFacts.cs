@@ -948,7 +948,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 or ErrorCode.ERR_ExplicitPropertyAddingAccessor
                 or ErrorCode.ERR_ExplicitPropertyMissingAccessor
                 or ErrorCode.ERR_ConversionWithInterface
-                or ErrorCode.ERR_ConversionWithBase
+                or ErrorCode.ERR_553
                 or ErrorCode.ERR_ConversionWithDerived
                 or ErrorCode.ERR_IdentityConversion
                 or ErrorCode.ERR_ConversionNotInvolvingContainedType
@@ -1208,7 +1208,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 or ErrorCode.ERR_MemberNeedsType
                 or ErrorCode.ERR_BadBaseType
                 or ErrorCode.WRN_EmptySwitch
-                or ErrorCode.ERR_ExpectedEndTry
+                or ErrorCode.ERR_1524
                 or ErrorCode.ERR_InvalidExprTerm
                 or ErrorCode.ERR_BadNewExpr
                 or ErrorCode.ERR_NoNamespacePrivate

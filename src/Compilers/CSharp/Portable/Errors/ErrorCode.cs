@@ -373,7 +373,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         ERR_ExplicitPropertyAddingAccessor = 550,
         ERR_ExplicitPropertyMissingAccessor = 551,
         ERR_ConversionWithInterface = 552,
-        ERR_ConversionWithBase = 553,
+        ERR_553 = 553,
         ERR_ConversionWithDerived = 554,
         ERR_IdentityConversion = 555,
         ERR_ConversionNotInvolvingContainedType = 556,
@@ -698,7 +698,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         ERR_MemberNeedsType = 1520,
         ERR_BadBaseType = 1521,
         WRN_EmptySwitch = 1522,
-        ERR_ExpectedEndTry = 1524,
+        ERR_1524 = 1524,
         ERR_InvalidExprTerm = 1525,
         ERR_BadNewExpr = 1526,
         ERR_NoNamespacePrivate = 1527,
@@ -1338,7 +1338,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         ERR_TooManyUserStrings = 8103,
         ERR_PeWritingFailure = 8104,
         #endregion diagnostics introduced in Roslyn (C# 6)
-
+        
         #region diagnostics introduced in C# 6 updates
         WRN_AttributeIgnoredWhenPublicSigning = 8105,
         ERR_OptionMustBeAbsolutePath = 8106,
