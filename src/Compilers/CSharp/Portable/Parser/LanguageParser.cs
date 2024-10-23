@@ -1355,6 +1355,14 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
 
             while (true)
             {
+                if (this.CurrentToken.Kind is SyntaxKind.NewKeyword)
+                {
+                    if (this.PeekToken(1).Kind is SyntaxKind.ThisKeyword)
+                    {
+                        break;
+                    }
+                }
+
                 var newMod = GetModifierExcludingScoped(this.CurrentToken);
 
                 Debug.Assert(newMod != DeclarationModifiers.Scoped);
@@ -2525,10 +2533,10 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
                                 break;
 
                             case SyntaxKind.NewKeyword:
+                                if (this.PeekToken(1).Kind is SyntaxKind.ThisKeyword)
+                                    return ParseConstructorDeclaration(attributes, modifiers);
                                 if (IsPossibleNewExpression())
-                                {
                                     return _syntaxFactory.GlobalStatement(ParseExpressionStatement(attributes));
-                                }
                                 break;
                         }
                     }
@@ -3046,9 +3054,10 @@ parse_member_name:;
                 bool isPossibleTypeDeclaration;
                 this.ParseModifiers(modifiers, forAccessors: false, forTopLevelStatements: false, out isPossibleTypeDeclaration);
 
-                // Check for constructor form
-                if (this.CurrentToken.Kind == SyntaxKind.IdentifierToken && this.PeekToken(1).Kind == SyntaxKind.OpenParenToken)
+                switch(this.CurrentToken.Kind)
                 {
+                    case SyntaxKind.NewKeyword when this.PeekToken(1).Kind == SyntaxKind.ThisKeyword:
+                    case SyntaxKind.IdentifierToken when this.PeekToken(1).Kind == SyntaxKind.OpenParenToken:
                     return this.ParseConstructorDeclaration(attributes, modifiers);
                 }
 
@@ -3285,7 +3294,11 @@ parse_member_name:;
         private ConstructorDeclarationSyntax ParseConstructorDeclaration(
             SyntaxList<AttributeListSyntax> attributes, SyntaxListBuilder modifiers)
         {
-            var name = this.ParseIdentifierToken();
+            var @new = this.TryEatToken(SyntaxKind.NewKeyword);
+            var @ths = @new is null ? null : this.TryEatToken(SyntaxKind.ThisKeyword);
+            var name = @new is null ? this.ParseIdentifierToken() :
+                SyntaxFactory.Token(@new.GetLeadingTrivia(), SyntaxKind.ThisKeyword, @new.Text + " " + ths.Text, @new.ValueText + " " + ths.ValueText, @ths.GetTrailingTrivia());
+
             var saveTerm = _termState;
             _termState |= TerminatorState.IsEndOfMethodSignature;
             try
