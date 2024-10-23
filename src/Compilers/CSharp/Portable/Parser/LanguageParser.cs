@@ -3058,7 +3058,7 @@ parse_member_name:;
                 {
                     case SyntaxKind.NewKeyword when this.PeekToken(1).Kind == SyntaxKind.ThisKeyword:
                     case SyntaxKind.IdentifierToken when this.PeekToken(1).Kind == SyntaxKind.OpenParenToken:
-                    return this.ParseConstructorDeclaration(attributes, modifiers);
+                        return this.ParseConstructorDeclaration(attributes, modifiers);
                 }
 
                 // Check for destructor form
@@ -8959,7 +8959,7 @@ done:
                 {
                     catchClauses.Add(this.ParseCatchClause());
                 }
-            }
+            } 
             else
             {
                 catchClauses.Add(
