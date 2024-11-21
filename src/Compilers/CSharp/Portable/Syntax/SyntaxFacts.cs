@@ -434,20 +434,9 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
         }
 
-        [System.Obsolete("IsLambdaBody API is obsolete", true)]
-        public static bool IsLambdaBody(SyntaxNode node)
-        {
-            return LambdaUtilities.IsLambdaBody(node);
-        }
-
         internal static bool IsIdentifierVar(this Syntax.InternalSyntax.SyntaxToken node)
         {
             return node.ContextualKind == SyntaxKind.VarKeyword;
-        }
-
-        internal static bool IsIdentifierVarOrPredefinedType(this Syntax.InternalSyntax.SyntaxToken node)
-        {
-            return node.IsIdentifierVar() || IsPredefinedType(node.Kind);
         }
 
         internal static bool IsDeclarationExpressionType(SyntaxNode node, [NotNullWhen(true)] out DeclarationExpressionSyntax? parent)
