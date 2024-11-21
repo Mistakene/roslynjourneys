@@ -624,6 +624,8 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return SyntaxKind.IsExpression;
                 case SyntaxKind.AsKeyword:
                     return SyntaxKind.AsExpression;
+                case SyntaxKind.OrKeyword:
+                    return SyntaxKind.OrExpression;
                 case SyntaxKind.BarToken:
                     return SyntaxKind.BitwiseOrExpression;
                 case SyntaxKind.CaretToken:

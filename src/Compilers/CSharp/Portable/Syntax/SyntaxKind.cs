@@ -648,6 +648,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         GreaterThanOrEqualExpression = 8685,
         IsExpression = 8686,
         AsExpression = 8687,
+        OrExpression = 8693,
         CoalesceExpression = 8688,
         SimpleMemberAccessExpression = 8689,  // dot access:   a.b
         PointerMemberAccessExpression = 8690,  // arrow access:   a->b

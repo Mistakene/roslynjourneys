@@ -178,6 +178,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
                 DeclarationModifiers.Fixed |
                 DeclarationModifiers.Unsafe |
                 DeclarationModifiers.Abstract |
+                DeclarationModifiers.Init |
                 DeclarationModifiers.Required; // Some of these are filtered out later, when illegal, for better error messages.
 
             var errorLocation = new SourceLocation(firstIdentifier);
