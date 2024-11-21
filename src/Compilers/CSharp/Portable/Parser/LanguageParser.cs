@@ -9459,29 +9459,26 @@ done:
                     // There we err on the side of accepting a declaration.
                     return true;
             }
-        }
 
-        /// <summary>
-        /// Is the following set of tokens, interpreted as a type, the type <c>var</c>?
-        /// </summary>
-        private bool IsVarType()
-        {
-            if (!this.CurrentToken.IsIdentifierVar())
+            bool IsVarType()
             {
-                return false;
-            }
-
-            switch (this.PeekToken(1).Kind)
-            {
-                case SyntaxKind.DotToken:
-                case SyntaxKind.ColonColonToken:
-                case SyntaxKind.OpenBracketToken:
-                case SyntaxKind.AsteriskToken:
-                case SyntaxKind.QuestionToken:
-                case SyntaxKind.LessThanToken:
+                if (!this.CurrentToken.IsIdentifierVar())
+                {
                     return false;
-                default:
-                    return true;
+                }
+
+                switch (this.PeekToken(1).Kind)
+                {
+                    case SyntaxKind.DotToken:
+                    case SyntaxKind.ColonColonToken:
+                    case SyntaxKind.OpenBracketToken:
+                    case SyntaxKind.AsteriskToken:
+                    case SyntaxKind.QuestionToken:
+                    case SyntaxKind.LessThanToken:
+                        return false;
+                    default:
+                        return true;
+                }
             }
         }
 
@@ -10271,14 +10268,7 @@ done:
 
         private bool IsEndOfDeclarationClause()
         {
-            switch (this.CurrentToken.Kind)
-            {
-                case SyntaxKind.SemicolonToken:
-                case SyntaxKind.ColonToken:
-                    return true;
-                default:
-                    return false;
-            }
+            return this.CurrentToken.Kind is SyntaxKind.ColonToken or SyntaxKind.SemicolonToken;
         }
 
         private void ParseDeclarationModifiers(SyntaxListBuilder list, bool isUsingDeclaration)
@@ -11154,7 +11144,17 @@ done:
                 }
                 else if (opKind == SyntaxKind.IsExpression)
                 {
-                    leftOperand = ParseIsExpression(leftOperand, opToken);
+                    var node = this.ParseTypeOrPatternForIsOperator();
+                    leftOperand = node switch
+                    {
+                        PatternSyntax pattern => _syntaxFactory.IsPatternExpression(leftOperand, opToken, pattern),
+                        TypeSyntax type => _syntaxFactory.BinaryExpression(SyntaxKind.IsExpression, leftOperand, opToken, type),
+                        _ => throw ExceptionUtilities.UnexpectedValue(node),
+                    };
+                }
+                else if (opKind == SyntaxKind.OrExpression)
+                {
+
                 }
                 else if (isAssignmentOperator)
                 {
@@ -11329,17 +11329,6 @@ done:
             return _syntaxFactory.ThrowExpression(
                 this.EatToken(SyntaxKind.ThrowKeyword),
                 this.ParseSubExpression(Precedence.Coalescing));
-        }
-
-        private ExpressionSyntax ParseIsExpression(ExpressionSyntax leftOperand, SyntaxToken opToken)
-        {
-            var node = this.ParseTypeOrPatternForIsOperator();
-            return node switch
-            {
-                PatternSyntax pattern => _syntaxFactory.IsPatternExpression(leftOperand, opToken, pattern),
-                TypeSyntax type => _syntaxFactory.BinaryExpression(SyntaxKind.IsExpression, leftOperand, opToken, type),
-                _ => throw ExceptionUtilities.UnexpectedValue(node),
-            };
         }
 
         private ExpressionSyntax ParseTerm(Precedence precedence)
