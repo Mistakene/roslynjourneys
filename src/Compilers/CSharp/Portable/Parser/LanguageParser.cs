@@ -1287,8 +1287,6 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
 
         internal static DeclarationModifiers GetModifierExcludingScoped(SyntaxKind kind, SyntaxKind contextualKind)
         {
-            if (kind is SyntaxKind.InitKeyword || contextualKind is SyntaxKind.InitKeyword)
-                return DeclarationModifiers.Init;
             switch (kind)
             {
                 case SyntaxKind.PublicKeyword:
@@ -1325,6 +1323,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
                     return DeclarationModifiers.Async;
                 case SyntaxKind.RefKeyword:
                     return DeclarationModifiers.Ref;
+                case SyntaxKind.InitKeyword:
                 case SyntaxKind.IdentifierToken:
                     switch (contextualKind)
                     {
@@ -1336,6 +1335,8 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
                             return DeclarationModifiers.Required;
                         case SyntaxKind.FileKeyword:
                             return DeclarationModifiers.File;
+                        case SyntaxKind.InitKeyword:
+                            return DeclarationModifiers.Init;
                     }
 
                     goto default;
