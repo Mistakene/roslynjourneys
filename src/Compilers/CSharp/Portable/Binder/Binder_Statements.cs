@@ -3236,7 +3236,28 @@ namespace Microsoft.CodeAnalysis.CSharp
             bool hasError = false;
             TypeSymbol type = null;
             BoundExpression boundFilter = null;
+            var block = node.Block;
             var declaration = node.Declaration;
+
+            if (node.Green is InternalSyntax.CatchClauseSyntax green && green.catchKeyword.Kind == SyntaxKind.LogKeyword)
+            {
+                declaration = SyntaxFactory.CatchDeclaration(SyntaxFactory.MissingToken(SyntaxKind.OpenParenToken),
+                    SyntaxFactory.QualifiedName("System", "Exception"), SyntaxFactory.Identifier("obj_"), SyntaxFactory.MissingToken(SyntaxKind.CloseParenToken));
+
+                if (block?.Statements[0] is ExpressionStatementSyntax expression)
+                {
+                    if (expression.Expression is InvocationExpressionSyntax invocation)
+                    {
+                        var arguments = invocation.ArgumentList.AddArguments(SyntaxFactory.Argument(SyntaxFactory.IdentifierName("obj_")));
+                        invocation = invocation.WithArgumentList(arguments);
+                        expression = expression.WithExpression(invocation);
+                        // - big whoop buddy.
+                        block.Statements.RemoveAt(0);
+                        block = block.AddStatements(expression);
+                    }
+                }
+            }
+
             if (declaration != null)
             {
                 // Note: The type is being bound twice: here and in LocalSymbol.Type. Currently,
