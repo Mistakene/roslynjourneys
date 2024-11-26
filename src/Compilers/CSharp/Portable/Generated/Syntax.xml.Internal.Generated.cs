@@ -3,10 +3,8 @@
 #nullable enable
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis.Syntax.InternalSyntax;
-using Roslyn.Utilities;
+
 using CoreSyntax = Microsoft.CodeAnalysis.Syntax.InternalSyntax;
 
 namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax;
@@ -4158,7 +4156,7 @@ internal abstract partial class BaseArgumentListSyntax : CSharpSyntaxNode
 internal sealed partial class ArgumentListSyntax : BaseArgumentListSyntax
 {
     internal readonly SyntaxToken openParenToken;
-    internal GreenNode? arguments;
+    internal readonly GreenNode? arguments;
     internal readonly SyntaxToken closeParenToken;
 
     internal ArgumentListSyntax(SyntaxKind kind, SyntaxToken openParenToken, GreenNode? arguments, SyntaxToken closeParenToken, DiagnosticInfo[]? diagnostics, SyntaxAnnotation[]? annotations)
@@ -14523,7 +14521,7 @@ internal sealed partial class TryStatementSyntax : StatementSyntax
 internal sealed partial class CatchClauseSyntax : CSharpSyntaxNode
 {
     internal readonly SyntaxToken catchKeyword;
-    internal CatchDeclarationSyntax? declaration;
+    internal readonly CatchDeclarationSyntax? declaration;
     internal readonly CatchFilterClauseSyntax? filter;
     internal readonly BlockSyntax block;
 
@@ -14635,8 +14633,8 @@ internal sealed partial class CatchClauseSyntax : CSharpSyntaxNode
 internal sealed partial class CatchDeclarationSyntax : CSharpSyntaxNode
 {
     internal readonly SyntaxToken openParenToken;
-    internal TypeSyntax? type;
-    internal SyntaxToken? identifier;
+    internal readonly TypeSyntax type;
+    internal readonly SyntaxToken? identifier;
     internal readonly SyntaxToken closeParenToken;
 
     internal CatchDeclarationSyntax(SyntaxKind kind, SyntaxToken openParenToken, TypeSyntax type, SyntaxToken? identifier, SyntaxToken closeParenToken, DiagnosticInfo[]? diagnostics, SyntaxAnnotation[]? annotations)
