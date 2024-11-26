@@ -100,6 +100,8 @@ namespace Microsoft.CodeAnalysis.CSharp
 
         // Values ranging from 8193 (TildeToken) to 8287 (GreaterThanGreaterThanGreaterThanEqualsToken) are reserved for punctuation kinds.
         // This gap is included within that range. So if you add a value here make sure `SyntaxFacts.GetPunctuationKinds` includes it in the returned enumeration
+        /// <summary>Represents <c>?:</c> token.</summary>
+        QuestionColon = 8240,
 
         // compound punctuation
         /// <summary>Represents <c>||</c> token.</summary>
@@ -152,8 +154,8 @@ namespace Microsoft.CodeAnalysis.CSharp
         PercentEqualsToken = 8283,
         /// <summary>Represents <c>??=</c> token.</summary>
         QuestionQuestionEqualsToken = 8284,
-        // Don't use 8285. It corresponds to the deleted kind ExclamationExclamationToken which was previously shipped.
-
+        /// <summary>Represents <c>!!</c> token.</summary>
+        ExclamationExclamationToken = 8285,
         /// <summary>Represents <c>&gt;&gt;&gt;</c> token.</summary>
         GreaterThanGreaterThanGreaterThanToken = 8286,
         /// <summary>Represents <c>&gt;&gt;&gt;=</c> token.</summary>
@@ -326,6 +328,10 @@ namespace Microsoft.CodeAnalysis.CSharp
         ExplicitKeyword = 8383,
         /// <summary>Represents <see langword="implicit"/>.</summary>
         ImplicitKeyword = 8384,
+        
+        LogKeyword = 8385,
+
+        ReservedKeyword = 8386,
 
         // contextual keywords
         /// <summary>Represents <see langword="yield"/>.</summary>

@@ -552,7 +552,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
                     TextWindow.AdvanceChar();
                     info.Kind = TextWindow.TryAdvance('?')
                         ? TextWindow.TryAdvance('=') ? SyntaxKind.QuestionQuestionEqualsToken : SyntaxKind.QuestionQuestionToken
-                        : SyntaxKind.QuestionToken;
+                        : /*TextWindow.TryAdvance(':') ? SyntaxKind.QuestionColon :*/ SyntaxKind.QuestionToken;
                     break;
 
                 case '+':

@@ -196,9 +196,9 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
             }
         }
 
-        internal static SyntaxToken Identifier(string text)
+        internal static SyntaxToken Identifier(string text, bool missing = false)
         {
-            return new SyntaxIdentifier(text);
+            return new SyntaxIdentifier(text, missing);
         }
 
         internal static SyntaxToken Identifier(GreenNode leading, string text, GreenNode trailing)

@@ -39,7 +39,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
         public static bool IsReservedKeyword(SyntaxKind kind)
         {
-            return kind >= SyntaxKind.BoolKeyword && kind <= SyntaxKind.ImplicitKeyword;
+            return kind >= SyntaxKind.BoolKeyword && kind <= SyntaxKind.ReservedKeyword;
         }
 
         public static bool IsAttributeTargetSpecifier(SyntaxKind kind)
@@ -618,6 +618,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         {
             switch (token)
             {
+                case SyntaxKind.QuestionColon:
                 case SyntaxKind.QuestionQuestionToken:
                     return SyntaxKind.CoalesceExpression;
                 case SyntaxKind.IsKeyword:
@@ -1013,6 +1014,8 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return SyntaxKind.ImplicitKeyword;
                 case "explicit":
                     return SyntaxKind.ExplicitKeyword;
+                case "log":
+                    return SyntaxKind.LogKeyword;
                 default:
                     return SyntaxKind.None;
             }
@@ -1662,6 +1665,9 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return "implicit";
                 case SyntaxKind.ExplicitKeyword:
                     return "explicit";
+                case SyntaxKind.LogKeyword:
+                    return "log";
+
                 case SyntaxKind.ElifKeyword:
                     return "elif";
                 case SyntaxKind.EndIfKeyword:

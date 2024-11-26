@@ -1692,7 +1692,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             using (var lexer = MakeLexer(text, offset))
             using (var parser = MakeParser(lexer))
             {
-                var node = parser.ParseName();
+                var node = parser.ParseQualifiedName();
                 if (consumeFullText) node = parser.ConsumeUnexpectedTokens(node);
                 return (NameSyntax)node.CreateRed();
             }

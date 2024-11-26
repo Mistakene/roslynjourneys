@@ -154,6 +154,11 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
             return SyntaxToken.CreateMissing(kind, leading, trailing);
         }
 
+        internal static SyntaxToken MissingIdentifier(string text)
+        {
+            return SyntaxToken.Identifier(text, true);
+        }
+
         internal static SyntaxToken Identifier(string text)
         {
             return Identifier(SyntaxKind.IdentifierToken, null, text, text, null);

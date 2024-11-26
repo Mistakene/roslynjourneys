@@ -21,7 +21,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         /// Sequence points permit Syntax to be null.  But all other contexts require a non-null Syntax,
         /// so we annotate it for the majority of uses.
         /// </summary>
-        public readonly SyntaxNode Syntax;
+        public SyntaxNode Syntax;
 
         [Flags()]
         private enum BoundNodeAttributes : short

@@ -4277,7 +4277,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         public TypeSymbol? ExceptionTypeOpt { get; }
         public BoundStatementList? ExceptionFilterPrologueOpt { get; }
         public BoundExpression? ExceptionFilterOpt { get; }
-        public BoundBlock Body { get; }
+        public BoundBlock Body { get; set; }
         public bool IsSynthesizedAsyncCatchAll { get; }
 
         [DebuggerStepThrough]

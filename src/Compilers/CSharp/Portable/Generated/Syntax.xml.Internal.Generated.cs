@@ -3983,7 +3983,7 @@ internal sealed partial class SizeOfExpressionSyntax : ExpressionSyntax
 internal sealed partial class InvocationExpressionSyntax : ExpressionSyntax
 {
     internal readonly ExpressionSyntax expression;
-    internal readonly ArgumentListSyntax argumentList;
+    internal ArgumentListSyntax argumentList;
 
     internal InvocationExpressionSyntax(SyntaxKind kind, ExpressionSyntax expression, ArgumentListSyntax argumentList, DiagnosticInfo[]? diagnostics, SyntaxAnnotation[]? annotations)
       : base(kind, diagnostics, annotations)
@@ -4158,7 +4158,7 @@ internal abstract partial class BaseArgumentListSyntax : CSharpSyntaxNode
 internal sealed partial class ArgumentListSyntax : BaseArgumentListSyntax
 {
     internal readonly SyntaxToken openParenToken;
-    internal readonly GreenNode? arguments;
+    internal GreenNode? arguments;
     internal readonly SyntaxToken closeParenToken;
 
     internal ArgumentListSyntax(SyntaxKind kind, SyntaxToken openParenToken, GreenNode? arguments, SyntaxToken closeParenToken, DiagnosticInfo[]? diagnostics, SyntaxAnnotation[]? annotations)
@@ -10971,7 +10971,7 @@ internal sealed partial class ParenthesizedVariableDesignationSyntax : VariableD
 internal sealed partial class ExpressionStatementSyntax : StatementSyntax
 {
     internal readonly GreenNode? attributeLists;
-    internal readonly ExpressionSyntax expression;
+    public readonly ExpressionSyntax expression;
     internal readonly SyntaxToken semicolonToken;
 
     internal ExpressionStatementSyntax(SyntaxKind kind, GreenNode? attributeLists, ExpressionSyntax expression, SyntaxToken semicolonToken, DiagnosticInfo[]? diagnostics, SyntaxAnnotation[]? annotations)
@@ -14523,7 +14523,7 @@ internal sealed partial class TryStatementSyntax : StatementSyntax
 internal sealed partial class CatchClauseSyntax : CSharpSyntaxNode
 {
     internal readonly SyntaxToken catchKeyword;
-    internal readonly CatchDeclarationSyntax? declaration;
+    internal CatchDeclarationSyntax? declaration;
     internal readonly CatchFilterClauseSyntax? filter;
     internal readonly BlockSyntax block;
 
@@ -14635,8 +14635,8 @@ internal sealed partial class CatchClauseSyntax : CSharpSyntaxNode
 internal sealed partial class CatchDeclarationSyntax : CSharpSyntaxNode
 {
     internal readonly SyntaxToken openParenToken;
-    internal readonly TypeSyntax type;
-    internal readonly SyntaxToken? identifier;
+    internal TypeSyntax? type;
+    internal SyntaxToken? identifier;
     internal readonly SyntaxToken closeParenToken;
 
     internal CatchDeclarationSyntax(SyntaxKind kind, SyntaxToken openParenToken, TypeSyntax type, SyntaxToken? identifier, SyntaxToken closeParenToken, DiagnosticInfo[]? diagnostics, SyntaxAnnotation[]? annotations)
@@ -28486,37 +28486,6 @@ internal partial class ContextAwareSyntax
             case SyntaxKind.CoalesceExpression: break;
             default: throw new ArgumentException(nameof(kind));
         }
-#if DEBUG
-        if (left == null) throw new ArgumentNullException(nameof(left));
-        if (operatorToken == null) throw new ArgumentNullException(nameof(operatorToken));
-        switch (operatorToken.Kind)
-        {
-            case SyntaxKind.PlusToken:
-            case SyntaxKind.MinusToken:
-            case SyntaxKind.AsteriskToken:
-            case SyntaxKind.SlashToken:
-            case SyntaxKind.PercentToken:
-            case SyntaxKind.LessThanLessThanToken:
-            case SyntaxKind.GreaterThanGreaterThanToken:
-            case SyntaxKind.GreaterThanGreaterThanGreaterThanToken:
-            case SyntaxKind.BarBarToken:
-            case SyntaxKind.AmpersandAmpersandToken:
-            case SyntaxKind.BarToken:
-            case SyntaxKind.AmpersandToken:
-            case SyntaxKind.CaretToken:
-            case SyntaxKind.EqualsEqualsToken:
-            case SyntaxKind.ExclamationEqualsToken:
-            case SyntaxKind.LessThanToken:
-            case SyntaxKind.LessThanEqualsToken:
-            case SyntaxKind.GreaterThanToken:
-            case SyntaxKind.GreaterThanEqualsToken:
-            case SyntaxKind.IsKeyword:
-            case SyntaxKind.AsKeyword:
-            case SyntaxKind.QuestionQuestionToken: break;
-            default: throw new ArgumentException(nameof(operatorToken));
-        }
-        if (right == null) throw new ArgumentNullException(nameof(right));
-#endif
 
         int hash;
         var cached = CSharpSyntaxNodeCache.TryGetNode((int)kind, left, operatorToken, right, this.context, out hash);
@@ -30856,7 +30825,6 @@ internal partial class ContextAwareSyntax
     {
 #if DEBUG
         if (catchKeyword == null) throw new ArgumentNullException(nameof(catchKeyword));
-        if (catchKeyword.Kind != SyntaxKind.CatchKeyword) throw new ArgumentException(nameof(catchKeyword));
         if (block == null) throw new ArgumentNullException(nameof(block));
 #endif
 

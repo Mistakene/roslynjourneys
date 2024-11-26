@@ -2243,6 +2243,18 @@ public static partial class SyntaxFactory
     }
 
     /// <summary>Creates a new QualifiedNameSyntax instance.</summary>
+    public static QualifiedNameSyntax QualifiedName(String left, SyntaxToken dotToken, String right)
+    {
+        return QualifiedName(SyntaxFactory.IdentifierName(SyntaxFactory.Identifier(left)), dotToken, SyntaxFactory.IdentifierName(SyntaxFactory.Identifier(right)));
+    }
+
+    /// <summary>Creates a new QualifiedNameSyntax instance.</summary>
+    public static QualifiedNameSyntax QualifiedName(String left, String right)
+    {
+        return QualifiedName(SyntaxFactory.IdentifierName(SyntaxFactory.Identifier(left)), SyntaxFactory.IdentifierName(SyntaxFactory.Identifier(right)));
+    }
+
+    /// <summary>Creates a new QualifiedNameSyntax instance.</summary>
     public static QualifiedNameSyntax QualifiedName(NameSyntax left, SimpleNameSyntax right)
         => SyntaxFactory.QualifiedName(left, SyntaxFactory.Token(SyntaxKind.DotToken), right);
 

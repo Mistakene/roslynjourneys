@@ -6,12 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.Threading;
 using Microsoft.CodeAnalysis.CSharp.Symbols;
 using Microsoft.CodeAnalysis.PooledObjects;
 using Microsoft.CodeAnalysis.Text;
 using Roslyn.Utilities;
+
+using CoreSyntax = Microsoft.CodeAnalysis.Syntax.InternalSyntax;
 
 namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
 {
@@ -5599,12 +5600,6 @@ parse_member_name:;
             return this.CurrentToken.Kind is SyntaxKind.DotToken or SyntaxKind.ColonColonToken;
         }
 
-        // This is public and parses open types. You probably don't want to use it.
-        public NameSyntax ParseName()
-        {
-            return this.ParseQualifiedName();
-        }
-
         private IdentifierNameSyntax CreateMissingIdentifierName()
         {
             return _syntaxFactory.IdentifierName(CreateMissingIdentifierToken());
@@ -5616,7 +5611,7 @@ parse_member_name:;
         }
 
         [Flags]
-        private enum NameOptions
+        public enum NameOptions
         {
             None = 0,
             InExpression = 1 << 0, // Used to influence parser ambiguity around "<" and generics vs. expressions. Used in ParseSimpleName.
@@ -6671,7 +6666,7 @@ parse_member_name:;
                 : name;
         }
 
-        private NameSyntax ParseQualifiedName(NameOptions options = NameOptions.None)
+        public NameSyntax ParseQualifiedName(NameOptions options = NameOptions.None)
         {
             NameSyntax name = this.ParseAliasQualifiedName(options);
 
@@ -7970,6 +7965,7 @@ done:
                     case SyntaxKind.TryKeyword:
                     case SyntaxKind.CatchKeyword:
                     case SyntaxKind.FinallyKeyword:
+                    case SyntaxKind.LogKeyword:
                         return this.ParseTryStatement(attributes);
                     case SyntaxKind.CheckedKeyword:
                     case SyntaxKind.UncheckedKeyword:
@@ -8942,13 +8938,35 @@ done:
 
             SyntaxListBuilder<CatchClauseSyntax> catchClauses = _pool.Allocate<CatchClauseSyntax>();
             FinallyClauseSyntax finallyClause = null;
-            if (this.CurrentToken.Kind == SyntaxKind.CatchKeyword)
+
+            if (this.CurrentToken.Kind == SyntaxKind.LogKeyword)
+            {
+                var KeyW = this.EatToken();
+
+                var streamOutName = this.ParseQualifiedName();
+
+                var Semi = this.EatToken(SyntaxKind.SemicolonToken);
+
+                var arguments = _pool.Allocate<ArgumentSyntax>();
+                //arguments.Add(_syntaxFactory.Argument(null, null, SyntaxFactory.MissingToken(SyntaxKind.IdentifierToken)));
+                var Arguments = _syntaxFactory.ArgumentList(SyntaxToken.CreateMissing(SyntaxKind.OpenParenToken), arguments.ToList().AsSeparatedList<ArgumentSyntax>(), SyntaxToken.CreateMissing(SyntaxKind.CloseParenToken));
+
+                var statements = _pool.Allocate<StatementSyntax>();
+                statements.Add(_syntaxFactory.ExpressionStatement(default,
+                    _syntaxFactory.InvocationExpression(streamOutName, Arguments),
+                    Semi));
+
+                catchClauses.Add(
+                    _syntaxFactory.CatchClause(KeyW, null, null, 
+                        _syntaxFactory.Block(default, SyntaxToken.CreateMissing(SyntaxKind.OpenBraceToken), statements.ToList(), SyntaxToken.CreateMissing(SyntaxKind.CloseBraceToken))));
+            }
+            else if (this.CurrentToken.Kind == SyntaxKind.CatchKeyword)
             {
                 while (this.CurrentToken.Kind == SyntaxKind.CatchKeyword)
                 {
                     catchClauses.Add(this.ParseCatchClause());
                 }
-            } 
+            }
             else
             {
                 catchClauses.Add(

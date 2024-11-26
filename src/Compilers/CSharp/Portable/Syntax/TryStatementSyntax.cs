@@ -3,6 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Syntax;
+
+using CoreSyntax = Microsoft.CodeAnalysis.Syntax.InternalSyntax;
 
 namespace Microsoft.CodeAnalysis.CSharp.Syntax
 {
@@ -89,6 +92,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax
         internal CatchClauseSyntax(InternalSyntax.CSharpSyntaxNode green, SyntaxNode? parent, int position)
           : base(green, parent, position)
         {
+            
         }
 
         public SyntaxToken CatchKeyword => new SyntaxToken(this, ((InternalSyntax.CatchClauseSyntax)this.Green).catchKeyword, Position, 0);
